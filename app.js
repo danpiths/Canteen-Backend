@@ -26,6 +26,22 @@ const foodRouter = require('./routes/foodRoutes');
 const orderRouter = require('./routes/orderRoutes');
 const userRouter = require('./routes/userRoutes');
 
+// CORS Setup
+var whitelist = [
+  'http://localhost:3000',
+  'https://canteen-backend.onrender.com',
+];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
 // MIDDLEWARE
 app.set('trust proxy', 1);
 app.use(
@@ -36,12 +52,7 @@ app.use(
 );
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(xss());
-app.use(
-  cors({
-    credentials: true,
-    origin: 'https://canteenwala.netlify.app',
-  })
-);
+app.use(cors(corsOptions));
 app.use(mongoSanitize());
 app.use(morgan('dev'));
 app.use(express.json());
