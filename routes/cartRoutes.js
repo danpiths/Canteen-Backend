@@ -9,6 +9,10 @@ router
   .get(authController.authenticateUser, cartController.getCurrentUserCart);
 
 router
+  .route('/clearCart')
+  .patch(authController.authenticateUser, cartController.clearCart);
+
+router
   .route('/updateCart')
   .patch(authController.authenticateUser, cartController.updateCart);
 
