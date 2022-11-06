@@ -30,7 +30,7 @@ const userRouter = require('./routes/userRoutes');
 var whitelist = [
   'http://localhost:3000',
   'https://canteen-backend.onrender.com',
-  'http://localhost:3000',
+  'http://192.168.0.106:3000',
 ];
 var corsOptions = {
   origin: function (origin, callback) {
