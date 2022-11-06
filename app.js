@@ -31,6 +31,7 @@ const corsOptions = {
   origin: [
     'http://localhost:3000',
     'https://canteen-backend.onrender.com',
+    'https://canteenwala.netlify.app',
     'http://192.168.0.106:3000',
   ],
   credentials: true,
