@@ -36,7 +36,12 @@ app.use(
 );
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(xss());
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(
+  cors({
+    credentials: true,
+    origin: 'https://stellular-cassata-3e5045.netlify.app',
+  })
+);
 app.use(mongoSanitize());
 app.use(morgan('dev'));
 app.use(express.json());
