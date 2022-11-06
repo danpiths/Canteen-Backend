@@ -27,19 +27,12 @@ const orderRouter = require('./routes/orderRoutes');
 const userRouter = require('./routes/userRoutes');
 
 // CORS Setup
-var whitelist = [
-  'http://localhost:3000',
-  'https://canteen-backend.onrender.com',
-  'http://192.168.0.106:3000',
-];
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'https://canteen-backend.onrender.com',
+    'http://192.168.0.106:3000',
+  ],
   credentials: true,
 };
 
