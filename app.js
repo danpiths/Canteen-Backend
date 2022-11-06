@@ -39,7 +39,7 @@ app.use(xss());
 app.use(
   cors({
     credentials: true,
-    origin: 'https://stellular-cassata-3e5045.netlify.app',
+    origin: 'https://canteenwala.netlify.app',
   })
 );
 app.use(mongoSanitize());
