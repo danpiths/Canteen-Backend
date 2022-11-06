@@ -6,6 +6,7 @@ const logout = async (req, res) => {
     expires: new Date(Date.now() + 10),
     secure: process.env.NODE_ENV === 'production',
     signed: true,
+    sameSite: 'none',
   });
   return res.status(StatusCodes.OK).send();
 };
