@@ -47,27 +47,6 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-// Socket IO Server Setup
-const io = new Server(server, {
-  cors: corsOptions,
-});
-io.on('connection', socket => {
-  console.log(`user connected: ${socket.id}`);
-
-  socket.on('subscribe', data => {
-    socket.join(data);
-    console.log(`subscribed to ${data}. user: ${socket.id}`);
-  });
-
-  socket.on('changeOrdersServer', data => {
-    socket.to('orders').emit('changeOrdersClient', data);
-  });
-
-  socket.on('disconnect', () => {
-    console.log(`user disconnected: ${socket.id}`);
-  });
-});
-
 // MIDDLEWARE
 app.set('trust proxy', 1);
 app.use(
@@ -104,6 +83,27 @@ app.use(ErrorHandlerMiddleware);
 // SERVER START
 const port = process.env.PORT || 5000;
 const server = http.createServer(app);
+
+// Socket IO Server Setup
+const io = new Server(server, {
+  cors: corsOptions,
+});
+io.on('connection', socket => {
+  console.log(`user connected: ${socket.id}`);
+
+  socket.on('subscribe', data => {
+    socket.join(data);
+    console.log(`subscribed to ${data}. user: ${socket.id}`);
+  });
+
+  socket.on('changeOrdersServer', data => {
+    socket.to('orders').emit('changeOrdersClient', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`user disconnected: ${socket.id}`);
+  });
+});
 
 start = async () => {
   try {
