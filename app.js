@@ -8,6 +8,7 @@ const app = express();
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+const cloudinary = require('cloudinary').v2;
 // security measures
 const rateLimiter = require('express-rate-limit');
 const helmet = require('helmet');
@@ -36,6 +37,13 @@ const corsOptions = {
   ],
   credentials: true,
 };
+
+// Setup Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 // MIDDLEWARE
 app.set('trust proxy', 1);

@@ -2,6 +2,7 @@ const CategoryModel = require('../../models/Category');
 const { StatusCodes } = require('http-status-codes');
 const Errors = require('../../errors');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
 
 const uploadImage = async (req, res) => {
   const { id: categoryId } = req.params;
@@ -26,16 +27,27 @@ const uploadImage = async (req, res) => {
   );
   await productImage.mv(imagePath);
 
+  const result = await cloudinary.uploader.upload(imagePath, {
+    use_filename: true,
+    unique_filename: true,
+    resource_type: 'image',
+    folder: 'canteen-backend/category',
+  });
+
+  fs.unlinkSync(imagePath);
+
   const category = await CategoryModel.findOne({ _id: categoryId });
   if (!category) {
     throw new Errors.NotFoundError(`No category with id ${categoryId}`);
   }
-  category.image = `/uploads/category/${categoryId}.jpg`;
+  category.image = result.secure_url;
   await category.save();
 
   res.status(StatusCodes.OK).json({
     msg: 'Successfully Uploaded Image!',
-    image: `/uploads/category/${categoryId}.jpg`,
+    image: {
+      src: result.secure_url,
+    },
   });
 };
 

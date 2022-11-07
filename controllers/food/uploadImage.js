@@ -2,6 +2,7 @@ const FoodModel = require('../../models/Food');
 const { StatusCodes } = require('http-status-codes');
 const Errors = require('../../errors');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
 
 const uploadImage = async (req, res) => {
   const { id: foodId } = req.params;
@@ -26,16 +27,27 @@ const uploadImage = async (req, res) => {
   );
   await productImage.mv(imagePath);
 
+  const result = await cloudinary.uploader.upload(imagePath, {
+    use_filename: true,
+    unique_filename: true,
+    resource_type: 'image',
+    folder: 'canteen-backend/food',
+  });
+
+  fs.unlinkSync(imagePath);
+
   const food = await FoodModel.findOne({ _id: foodId });
   if (!food) {
     throw new Errors.NotFoundError(`No food with id ${foodId}`);
   }
-  food.image = `/uploads/food/${foodId}.jpg`;
+  food.image = result.secure_url;
   await food.save();
 
   res.status(StatusCodes.OK).json({
     msg: 'Successfully Uploaded Image!',
-    image: `/uploads/food/${foodId}.jpg`,
+    image: {
+      src: result.secure_url,
+    },
   });
 };
 
