@@ -30,8 +30,16 @@ const orderRouter = require('./routes/orderRoutes');
 const userRouter = require('./routes/userRoutes');
 
 // CORS Setup
+const routes =
+  process.env.NODE_ENV === 'production'
+    ? ['https://canteenwala.netlify.app']
+    : [
+        'https://canteenwala.netlify.app',
+        'http://192.168.0.106:3000',
+        'http://localhost:3000',
+      ];
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' ? ['https://canteenwala.netlify.app'] : ['https://canteenwala.netlify.app', 'http://192.168.0.106:3000', 'http://localhost:3000'],
+  origin: routes,
   credentials: true,
 };
 
