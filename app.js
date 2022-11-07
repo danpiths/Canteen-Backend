@@ -92,7 +92,7 @@ io.on('connection', socket => {
 
   socket.on('subscribe', data => {
     socket.join(data);
-    // console.log(`subscribed to ${data}. user: ${socket.id}`);
+    console.log(`subscribed to ${data}. user: ${socket.id}`);
   });
 
   socket.on('changeOrdersServer', data => {
