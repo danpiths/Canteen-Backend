@@ -97,6 +97,7 @@ io.on('connection', socket => {
   });
 
   socket.on('changeOrdersServer', data => {
+    console.log(`change Order Request`, data);
     socket.to('orders').emit('changeOrdersClient', data);
   });
 
