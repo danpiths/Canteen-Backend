@@ -31,11 +31,7 @@ const userRouter = require('./routes/userRoutes');
 
 // CORS Setup
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'https://canteenwala.netlify.app',
-    'http://192.168.0.106:3000',
-  ],
+  origin: ['https://canteenwala.netlify.app'],
   credentials: true,
 };
 
