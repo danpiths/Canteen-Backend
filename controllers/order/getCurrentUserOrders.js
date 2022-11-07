@@ -12,7 +12,9 @@ const getCurrentUserOrders = async (req, res) => {
   if (!userOrders) {
     throw new Errors.NotFoundError(`No orders with userId ${id}`);
   }
-  res.status(StatusCodes.OK).json({ userOrders, count: userOrders.length });
+  res
+    .status(StatusCodes.OK)
+    .json({ orders: userOrders, count: userOrders.length });
 };
 
 module.exports = getCurrentUserOrders;

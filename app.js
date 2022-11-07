@@ -5,10 +5,12 @@ require('express-async-errors');
 // externals modules
 const express = require('express');
 const app = express();
+const http = require('http');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const cloudinary = require('cloudinary').v2;
+const { Server } = require('socket.io');
 // security measures
 const rateLimiter = require('express-rate-limit');
 const helmet = require('helmet');
@@ -43,6 +45,27 @@ cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET,
+});
+
+// Socket IO Server Setup
+const io = new Server(server, {
+  cors: corsOptions,
+});
+io.on('connection', socket => {
+  console.log(`user connected: ${socket.id}`);
+
+  socket.on('subscribe', data => {
+    socket.join(data);
+    console.log(`subscribed to ${data}. user: ${socket.id}`);
+  });
+
+  socket.on('changeOrdersServer', data => {
+    socket.to('orders').emit('changeOrdersClient', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`user disconnected: ${socket.id}`);
+  });
 });
 
 // MIDDLEWARE
@@ -80,11 +103,12 @@ app.use(ErrorHandlerMiddleware);
 
 // SERVER START
 const port = process.env.PORT || 5000;
+const server = http.createServer(app);
 
 start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`Server listening on port ${port}...`);
     });
   } catch (error) {
