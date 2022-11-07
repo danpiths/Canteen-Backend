@@ -14,7 +14,8 @@ const CategorySchema = new Schema({
   },
   image: {
     type: String,
-    default: '/uploads/category/default.jpg',
+    default:
+      'https://res.cloudinary.com/leantuts/image/upload/v1667803848/canteen-backend/category/default.jpg',
   },
 });
 

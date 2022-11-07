@@ -29,7 +29,8 @@ const FoodSchema = new Schema({
   },
   image: {
     type: String,
-    default: '/uploads/food/default.jpg',
+    default:
+      'https://res.cloudinary.com/leantuts/image/upload/v1667803945/canteen-backend/food/default.jpg',
   },
 });
 
