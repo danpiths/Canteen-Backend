@@ -3,6 +3,7 @@ const { StatusCodes } = require('http-status-codes');
 const Errors = require('../../errors');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 
 const uploadImage = async (req, res) => {
   const { id: categoryId } = req.params;
