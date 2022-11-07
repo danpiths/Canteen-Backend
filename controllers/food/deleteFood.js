@@ -10,11 +10,10 @@ const deleteFood = async (req, res) => {
   if (!food) {
     throw new Errors.NotFoundError(`No food with id ${foodId}`);
   }
-  const imagePath = path.join(
-    __dirname,
-    '../../public/uploads/food/' + `${food._id}.jpg`
-  );
-  fs.existsSync(imagePath) && fs.unlinkSync(imagePath);
+  food.image !== '/uploads/food/default.jpg' &&
+    (await cloudinary.uploader.destroy(`canteen-backend/food/${food._id}`, {
+      resource_type: 'image',
+    }));
   await food.remove();
   res.status(StatusCodes.OK).send();
 };

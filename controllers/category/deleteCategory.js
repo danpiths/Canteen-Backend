@@ -4,28 +4,31 @@ const { StatusCodes } = require('http-status-codes');
 const Errors = require('../../errors');
 const fs = require('fs');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
 
 const deleteCategory = async (req, res) => {
   const { id: categoryId } = req.params;
   const food = await FoodModel.find({ category: categoryId });
   food.length &&
     food.forEach(async foodItem => {
-      const imagePath = path.join(
-        __dirname,
-        '../../public/uploads/food/' + `${foodItem._id}.jpg`
-      );
-      fs.existsSync(imagePath) && fs.unlinkSync(imagePath);
+      foodItem.image !== '/uploads/food/default.jpg' &&
+        (await cloudinary.uploader.destroy(
+          `canteen-backend/food/${foodItem._id}`,
+          {
+            resource_type: 'image',
+          }
+        ));
       await foodItem.remove();
     });
   const category = await CategoryModel.findOne({ _id: categoryId });
   if (!category) {
     throw new Errors.NotFoundError(`No category with id ${categoryId}`);
   }
-  const imagePath = path.join(
-    __dirname,
-    '../../public/uploads/category/' + `${category._id}.jpg`
-  );
-  fs.existsSync(imagePath) && fs.unlinkSync(imagePath);
+  category.image !== '/uploads/category/default.jpg' &&
+    (await cloudinary.uploader.destroy(
+      `canteen-backend/category/${category._id}`,
+      { resource_type: 'image' }
+    ));
   await category.remove();
   res.status(StatusCodes.OK).send();
 };
