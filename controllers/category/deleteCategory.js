@@ -2,8 +2,6 @@ const CategoryModel = require('../../models/Category');
 const FoodModel = require('../../models/Food');
 const { StatusCodes } = require('http-status-codes');
 const Errors = require('../../errors');
-const fs = require('fs');
-const path = require('path');
 const cloudinary = require('cloudinary').v2;
 
 const deleteCategory = async (req, res) => {

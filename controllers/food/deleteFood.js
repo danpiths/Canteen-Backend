@@ -1,8 +1,7 @@
 const FoodModel = require('../../models/Food');
 const { StatusCodes } = require('http-status-codes');
 const Errors = require('../../errors');
-const fs = require('fs');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
 
 const deleteFood = async (req, res) => {
   const { id: foodId } = req.params;
