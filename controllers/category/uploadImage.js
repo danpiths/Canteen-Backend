@@ -30,7 +30,7 @@ const uploadImage = async (req, res) => {
 
   const result = await cloudinary.uploader.upload(imagePath, {
     use_filename: true,
-    unique_filename: true,
+    overwrite: true,
     resource_type: 'image',
     folder: 'canteen-backend/category',
   });
