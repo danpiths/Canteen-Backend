@@ -4,7 +4,6 @@ const JWT = require('../utils/jwt');
 const authenticateUser = async (req, res, next) => {
   const token = req.signedCookies.token;
   if (!token) {
-    console.log('no token')
     throw new Errors.UnauthenticatedError(
       'Not allowed to access authenticated route'
     );
@@ -14,7 +13,6 @@ const authenticateUser = async (req, res, next) => {
     req.user = payload;
     next();
   } catch (error) {
-    console.log('invalid jwt')
     throw new Errors.UnauthenticatedError(
       'Not allowed to access authenticated route'
     );
