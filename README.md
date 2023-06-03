@@ -1,6 +1,6 @@
 # Canteenwala Backend
 
-This is the backend for canteenwala app. Created using [Express](https://expressjs.com) and [node.js](https://nodejs.org/en).
+This is the backend for [Canteenwala app](https://canteenwala.netlify.app) ([Github](https://github.com/danpiths/Canteen-Frontend)). Created using [Express](https://expressjs.com) and [node.js](https://nodejs.org/en).
 
 [MongoDB](https://www.mongodb.com) is used as the backend database, with [Mongoose](https://mongoosejs.com) for schema, validation and casting.
 
